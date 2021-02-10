@@ -1,16 +1,9 @@
 package com.company.modal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -24,8 +17,14 @@ public class Department {
 
 	private String location;
 
+	@Column(columnDefinition = "TEXT")
+	private String description;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createAt;
+
 	@ManyToOne
-	@JsonBackReference("company")
+	@JsonBackReference(value = "company")
 	private Company company;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
@@ -38,10 +37,13 @@ public class Department {
 		super();
 	}
 
-	public Department(String code, String location, Company company, List<Employee> employees, List<Project> projects) {
+	public Department(String code, String location, String description, Date createAt, Company company,
+			List<Employee> employees, List<Project> projects) {
 		super();
 		this.code = code;
 		this.location = location;
+		this.description = description;
+		this.createAt = createAt;
 		this.company = company;
 		this.employees = employees;
 		this.projects = projects;
@@ -69,6 +71,22 @@ public class Department {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
 	}
 
 	public Company getCompany() {
@@ -110,4 +128,5 @@ public class Department {
 		getProjects().add(project);
 		project.setDepartment(this);
 	}
+
 }

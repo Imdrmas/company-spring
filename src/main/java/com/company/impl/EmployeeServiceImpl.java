@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Employee existEmployee = employeeDao.findById(id).get();
 		existEmployee.setName(employee.getName());
 		existEmployee.setAddress(employee.getAddress());
-		existEmployee.setSalarty(employee.getSalarty());
+		existEmployee.setSalary(employee.getSalary());
 		existEmployee.setBirthDate(employee.getBirthDate());
 		existEmployee.setHiringDate(employee.getHiringDate());
 		return employeeDao.save(existEmployee);
@@ -51,9 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public List<Employee> findEmployeesForDepratment(long id) {
-		Department department = departmentDao.findById(id).get();
-		return department.getEmployees();
+	public List<Employee> findEmployees() {
+		return employeeDao.findAll();
 	}
+
 
 }

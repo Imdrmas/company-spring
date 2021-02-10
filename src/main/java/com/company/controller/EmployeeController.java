@@ -1,5 +1,6 @@
 package com.company.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,8 @@ public class EmployeeController {
 	 void deleteEmployee(@PathVariable long id) {
 		 employeeService.deleteEmployee(id);
 	 }
-	 
-	@GetMapping("/findEmployeesForDepratment/{id}")
-	 List<Employee> findEmployeesForDepratment(@PathVariable long id) {
-		 return employeeService.findEmployeesForDepratment(id);
-	 }
-
+	@GetMapping("/findEmployees")
+	List<Employee> findEmployees() {
+		return employeeService.findEmployees();
+	}
 }

@@ -20,13 +20,13 @@ import com.company.service.ProjectService;
 @RequestMapping(value = "/api")
 @CrossOrigin(origins = "*")
 public class ProjectController {
-
+	
 	@Autowired
 	private ProjectService projectService;
 	
-	@GetMapping("/addProjectToEmploye/{idEmployee}/{idProject}")
-	 void addProjectToEmploye(@PathVariable long idEmployee, @PathVariable long idProject) {
-		 projectService.addProjectToEmploye(idEmployee, idProject);;
+	@PostMapping("/addProjectToEmployee/{idEmployee}/{idProject}")
+	 Project addProjectToEmploye(@PathVariable long idEmployee, @PathVariable long idProject) {
+		return projectService.addProjectToEmployee(idEmployee, idProject);
 	 }
 	 @PostMapping("/addProjectToDeprtment/{id}")
 	 Project addProjectToDeprtment(@RequestBody Project project, @PathVariable long id) {
@@ -40,17 +40,21 @@ public class ProjectController {
 	 Project findProject(@PathVariable long id) {
 		 return projectService.findProject(id);
 	 }
+
 	 @DeleteMapping("/deleteProejct/{id}")
 	 void deleteProejct(@PathVariable long id) {
 		 projectService.deleteProejct(id);
 	 }
 	 @GetMapping("/findProjectsForEmplopyee/{id}")
 	 List<Project> findProjectsForEmplopyee(@PathVariable long id) {
-		 return findProjectsForEmplopyee(id);
+		 return projectService.findProjectsForEmplopyee(id);
 	 }
-	 
-	 @GetMapping("/findProjectsForDepratment/{id}")
-	 List<Project> findProjectsForDepratment(@PathVariable long id) {
-		 return projectService.findProjectsForDepratment(id);
+	 @GetMapping("/findProjects")
+	 List<Project> findProjects() {
+		 return projectService.findProjects();
+	 }
+	 @DeleteMapping("/deleteProjectFromEmployee/{idEmployee}/{idProject}")
+	 void deleteProjectFromEmployee(@PathVariable long idEmployee, @PathVariable long idProject) {
+		 projectService.deleteProjectFromEmployee(idEmployee, idProject);
 	 }
 }

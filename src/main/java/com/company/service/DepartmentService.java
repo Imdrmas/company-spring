@@ -13,7 +13,5 @@ public interface DepartmentService {
 	Department findDepartment(long id);
 	
 	void deleteDepartment(long id);
-	
-	List<Department> findDepartmentsForCompany(long id);
 
 }

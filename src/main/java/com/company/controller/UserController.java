@@ -19,7 +19,7 @@ public class UserController {
    return userService.addUser(user);
  }
 
- @GetMapping("/admin/findAllUsers")
+ @GetMapping("/findAllUsers")
  List<User> findAllUsers() {
    return userService.findAllUsers();
  }

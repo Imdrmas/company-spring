@@ -6,7 +6,7 @@ import com.company.modal.Project;
 
 public interface ProjectService {
 	
- void addProjectToEmploye(long idEmployee, long idProject);
+ Project addProjectToEmployee(long idEmployee, long idProject);
  
  Project addProjectToDeprtment(Project project, long id);
  
@@ -17,6 +17,9 @@ public interface ProjectService {
  void deleteProejct(long id);
  
  List<Project> findProjectsForEmplopyee(long id);
+
+List<Project> findProjects();
+
+void deleteProjectFromEmployee(long idEmployee, long idProject);
  
- List<Project> findProjectsForDepratment(long id);
 }

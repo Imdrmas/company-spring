@@ -1,5 +1,6 @@
 package com.company.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,17 @@ public class ProjectServiceImpl implements ProjectService {
 	private EmployeeDao employeeDao;
 
 	@Override
-	public void addProjectToEmploye(long idEmployee, long idProject) {
+	public Project addProjectToEmployee(long idEmployee, long idProject) {
 		Employee employee = employeeDao.findById(idEmployee).get();
 		Project project = projectDao.findById(idProject).get();
 		employee.addProjectToEmploye(project);
+		return projectDao.save(project);
 	}
 
 	@Override
 	public Project addProjectToDeprtment(Project project, long id) {
 		Department department = departmentDao.findById(id).get();
+		project.setCreateAt(new Date());
 		department.addProjectToDepratment(project);
 		return projectDao.save(project);
 	}
@@ -57,7 +60,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void deleteProejct(long id) {
-		departmentDao.deleteById(id);
+		Project project = projectDao.findById(id).get();
+		projectDao.delete(project);
 	}
 
 	@Override
@@ -67,9 +71,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> findProjectsForDepratment(long id) {
-		Department department = departmentDao.findById(id).get();
-		return department.getProjects();
+	public List<Project> findProjects() {
+		return projectDao.findAll();
+	}
+
+	@Override
+	public void deleteProjectFromEmployee(long idEmployee, long idProject) {
+		Employee employee = employeeDao.findById(idEmployee).get();
+		Project project = projectDao.findById(idProject).get();
+		employee.getProjects().remove(project);
+		
 	}
 
 }

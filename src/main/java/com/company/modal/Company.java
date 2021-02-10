@@ -1,17 +1,9 @@
 package com.company.modal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -20,18 +12,22 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
+	@Column(unique = true)
 	private String name;
-	
+
 	private String location;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createAt;
+
 	@ManyToOne
-	@JsonBackReference("user")
+	@JsonBackReference(value = "user")
 	private User user;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
 	private List<Department> departments;
 
@@ -39,11 +35,13 @@ public class Company {
 		super();
 	}
 
-	public Company(String name, String location, String description, User user, List<Department> departments) {
+	public Company(String name, String location, String description, Date createAt, User user,
+			List<Department> departments) {
 		super();
 		this.name = name;
 		this.location = location;
 		this.description = description;
+		this.createAt = createAt;
 		this.user = user;
 		this.departments = departments;
 	}
@@ -80,6 +78,14 @@ public class Company {
 		this.description = description;
 	}
 
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -95,13 +101,13 @@ public class Company {
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
 	}
+
 	public void addDepartment(Department department) {
-		if (getDepartments()==null) {
+		if (getDepartments() == null) {
 			this.departments = new ArrayList<>();
 		}
 		getDepartments().add(department);
 		department.setCompany(this);
 	}
-	
-	
+
 }

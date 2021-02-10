@@ -1,7 +1,5 @@
 package com.company.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,10 +41,6 @@ public class DepartmentController {
 	void deleteDepartment(@PathVariable long id) {
 		departmentService.deleteDepartment(id);
 	}
-	
-	@GetMapping("/findDepartmentsForCompany/{id}")
-	List<Department> findDepartmentsForCompany(@PathVariable long id) {
-		return departmentService.findDepartmentsForCompany(id);
-	}
+
 
 }

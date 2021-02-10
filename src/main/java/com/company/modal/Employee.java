@@ -2,54 +2,50 @@ package com.company.modal;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Employee {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String name;
-	
+
 	private String address;
-	
-	private double salarty;
-	
+
+	private double salary;
+
 	private String hiringDate;
-	
+
 	private String birthDate;
-	
+
 	@ManyToOne
 	@JsonBackReference("department")
 	private Department department;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
 	private List<EmployeePhone> employeePhones;
-	
-	@OneToMany(mappedBy = "employee")
+
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "employee_projects", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
 	private List<Project> projects;
 
 	public Employee() {
 		super();
 	}
 
-	public Employee(String name, String address, double salarty, String hiringDate, String birthDate,
+	public Employee(String name, String address, double salary, String hiringDate, String birthDate,
 			Department department, List<EmployeePhone> employeePhones, List<Project> projects) {
 		super();
 		this.name = name;
 		this.address = address;
-		this.salarty = salarty;
+		this.salary = salary;
 		this.hiringDate = hiringDate;
 		this.birthDate = birthDate;
 		this.department = department;
@@ -81,12 +77,12 @@ public class Employee {
 		this.address = address;
 	}
 
-	public double getSalarty() {
-		return salarty;
+	public double getSalary() {
+		return salary;
 	}
 
-	public void setSalarty(double salarty) {
-		this.salarty = salarty;
+	public void setSalary(double salary) {
+		this.salary = salary;
 	}
 
 	public String getHiringDate() {
@@ -128,21 +124,22 @@ public class Employee {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-	
+
 	public void addEmployeePhone(EmployeePhone employeePhone) {
-		if (getEmployeePhones()==null) {
+		if (getEmployeePhones() == null) {
 			this.employeePhones = new ArrayList<>();
 		}
 		getEmployeePhones().add(employeePhone);
 		employeePhone.setEmployee(this);
 	}
-	
+
 	public void addProjectToEmploye(Project project) {
-		if (getProjects()==null) {
+		if (getProjects() == null) {
 			this.projects = new ArrayList<>();
 		}
-		getProjects().add(project);
-		project.setEmployee(this);
+		if (!getProjects().contains(project)) {
+			getProjects().add(project);
+		}
 	}
 
 }

@@ -2,8 +2,11 @@ package com.company.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.company.modal.Company;
 
+@Service
 public interface CompanyService {
 	
 	Company addCompany(Company company, long id);
@@ -14,6 +17,6 @@ public interface CompanyService {
 	
 	void deleteCompany(long id);
 	
-	List<Company> findCompaniesForUser(long id);
+	List<Company> findCompanies();
 
 }

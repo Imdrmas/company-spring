@@ -2,27 +2,21 @@ package com.company.modal;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private boolean admin;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Company> companies;
 
@@ -77,14 +71,13 @@ public class User {
 	public void setCompanies(List<Company> companies) {
 		this.companies = companies;
 	}
-	
+
 	public void addCompany(Company company) {
-		if (getCompanies()==null) {
+		if (getCompanies() == null) {
 			this.companies = new ArrayList<>();
 		}
 		getCompanies().add(company);
 		company.setUser(this);
 	}
-	
 
 }

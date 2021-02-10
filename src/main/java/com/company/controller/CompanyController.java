@@ -26,7 +26,7 @@ public class CompanyController {
 	
 	@PostMapping("/addCompany/{id}")
 	Company addCompany(@RequestBody Company company, @PathVariable long id) {
-		return addCompany(company, id);
+		return companyService.addCompany(company, id);
 	}
 	
 	@PutMapping("/editCompany/{id}")
@@ -44,8 +44,8 @@ public class CompanyController {
 		companyService.deleteCompany(id);
 	}
 	
-	@GetMapping("/findCompaniesForUser/{id}")
-	List<Company> findCompaniesForUser(@PathVariable long id) {
-		return companyService.findCompaniesForUser(id);
+	@GetMapping("/findCompanies")
+	List<Company> findCompaniesForUser() {
+		return companyService.findCompanies();
 	}
 }

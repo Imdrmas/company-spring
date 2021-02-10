@@ -1,5 +1,6 @@
 package com.company.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public Company addCompany(Company company, long id) {
-		User user = userDao.findById(id).get();
+		User user = userDao.findById(id).orElse(null);
+		company.setCreateAt(new Date());
 		user.addCompany(company);
 		return companyDao.save(company);
 	}
@@ -49,9 +51,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public List<Company> findCompaniesForUser(long id) {
-		User user = userDao.findById(id).get();
-		return user.getCompanies();
+	public List<Company> findCompanies() {
+		return companyDao.findAll();
 	}
 
 }
